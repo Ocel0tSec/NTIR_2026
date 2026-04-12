@@ -34,8 +34,8 @@ Before starting the lab, if you would like to follow along with the workbook, en
 
 ### Required Software
 
-| Software | Purpose | Install |
-|----------|---------|---------|
+| Software |  Install |
+|----------|---------|
 | Python 3.8+ | [python.org](https://www.python.org/downloads/) |
 | Git | [git-scm.com](https://git-scm.com/) |
 | PowerShell 5.1+ or 7+ | Pre-installed on Windows; [Install on macOS/Linux](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) |
