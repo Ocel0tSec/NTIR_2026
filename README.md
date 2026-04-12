@@ -5,9 +5,9 @@ Lab documents and guidance for the Intro to Cloud Pen Testing Workshop
 
 **An introductory cloud penetration testing workshop built on Microsoft Entra ID.**
 
-MergerMayhem simulates a post-merger corporate environment where two companies — Ocelot Security and Revolver Industries — have consolidated into a single Entra ID tenant. Misconfigurations introduced during the IT migration create an exploitable attack path that students follow from initial reconnaissance through lateral movement and data exfiltration.
+MergerMayhem simulates a post-merger corporate environment where two companies (Ocelot Security and Revolver Industries) have consolidated into a single Entra ID tenant. The executives at Revolver want to ensure that the migration was done in a secure manner and so we were hired as an outside contractor to perform a penetration test. Our goal is to attack the company just like the badguys would. Our first job is going to gain access. If we are unable to gain acceess to the clout tenant we will be given credentials to perfrom an "assumed breach" assesment. Misconfigurations introduced during the IT migration create an exploitable attack path that participants will follow from initial reconnaissance through lateral movement and data exfiltration.
 
-The workshop is designed for security professionals with little or no cloud pentesting experience. No prior Azure or Entra ID knowledge is required. All tools used are free and open source, and the lab environment runs entirely on the Entra ID Free tier at zero cost.
+The workshop is designed for security professionals with little or no cloud pentesting experience. No prior Azure or Entra ID knowledge is required. All tools used are free and open source, and the lab environment runs entirely on the Entra ID Free tier at zero cost. All tasks can be performed multiple ways, you are not restrained to the tools listed here, they are simply provided as a resource. Additionally everything in this lab can be done with just your web browser if you are uncomftorble or unfamiliar with the tools. Follow along, ask questions, and have fun!
 
 **Duration:** 45 minutes  
 **OSINT Target:** [https://ocelotsecurity.com/ntir-workshop/](https://ocelotsecurity.com/ntir-workshop/)
@@ -16,7 +16,7 @@ The workshop is designed for security professionals with little or no cloud pent
 
 ## Attack Path Overview
 
-The lab follows a five-phase kill chain. Each phase introduces a core cloud pentesting concept and a corresponding tool.
+The lab follows a five phase kill chain. Each phase introduces a core cloud pentesting concept and a corresponding tool.
 
 | Phase | Objective | Technique | Tool |
 |-------|-----------|-----------|------|
@@ -30,15 +30,15 @@ The lab follows a five-phase kill chain. Each phase introduces a core cloud pent
 
 ## Prerequisites
 
-Before starting the lab, ensure you have the following installed on your machine.
+Before starting the lab, if you would like to follow along with the workbook, ensure you have the following installed on your machine.
 
 ### Required Software
 
 | Software | Purpose | Install |
 |----------|---------|---------|
-| Python 3.8+ | Run o365spray | [python.org](https://www.python.org/downloads/) |
-| Git | Clone tool repositories | [git-scm.com](https://git-scm.com/) |
-| PowerShell 5.1+ or 7+ | Run GraphRunner and MSOLSpray | Pre-installed on Windows; [Install on macOS/Linux](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) |
+| Python 3.8+ | [python.org](https://www.python.org/downloads/) |
+| Git | [git-scm.com](https://git-scm.com/) |
+| PowerShell 5.1+ or 7+ | Pre-installed on Windows; [Install on macOS/Linux](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) |
 
 ### Required Tools
 
@@ -81,9 +81,15 @@ https://ocelotsecurity.com/ntir-workshop/
 
 **Step 3.** Based on the naming convention you identified, build a text file called `userlist.txt` with one potential username per line. For example, if you see an email formatted as `f.last@domain.com`, apply that pattern to every employee name on the page.
 
-**Step 4.** Add decoy usernames that don't exist. This makes the enumeration exercise more realistic — in a real engagement, not every guess will be valid.
+```bash
+awk '{print tolower(substr($1,1,1)"."$NF"@OcelotSecurity.onmicrosoft.com")}' names.txt > userlist.txt
+```
 
-**Step 5.** Run the enumeration. Replace `TARGET_DOMAIN` with the domain identified on the company page:
+```powershell
+Get-Content names.txt | ForEach-Object { $s=$_.Split(' '); "$($s[0][0]).$($s[-1])@OcelotSecurity.onmicrosoft.com".ToLower() } | Out-File userlist.txt
+```
+
+**Step 4.** Run the enumeration. Replace `TARGET_DOMAIN` with the domain identified on the company page:
 
 ```bash
 python3 o365spray.py --enum -U userlist.txt -d TARGET_DOMAIN --enum-module oauth2
