@@ -108,14 +108,14 @@ Password spraying tests a single common password against many accounts simultane
 **Step 1.** Create a file called `valid_users.txt` containing only the usernames confirmed valid in Phase 1.
 
 **Step 2.** Choose a password to spray. Common patterns during organizational transitions include:
-- `Welcome2024!` — default temporary passwords
-- `Season+Year` — `Summer2024!`, `Winter2024!`
-- `CompanyName+Year` — `Ocelot2024!`
+- `Welcome2026!` — default temporary passwords
+- `Season+Year` — `Summer2026!`, `Winter2026!`
+- `CompanyName+Year` — `Ocelot2026!`
 
 **Step 3.** Execute the spray:
 
 ```bash
-python3 o365spray.py --spray -U valid_users.txt -p "Welcome2024!" -d TARGET_DOMAIN
+python3 o365spray.py --spray -U valid_users.txt -p "Welcome2026!" -d TARGET_DOMAIN
 ```
 
 Or using PowerShell:
